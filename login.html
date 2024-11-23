@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión / Registrarse</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .auth-container {
+            display: flex;
+            justify-content: space-around;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .auth-form {
+            width: 45%;
+            padding: 20px;
+            background-color: #1e1e1e;
+            border-radius: 10px;
+        }
+        .auth-form h2 {
+            margin-top: 0;
+            color: #00aaff;
+        }
+        .auth-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+        .auth-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #00aaff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .auth-form button:hover {
+            background-color: #0088cc;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="movies.html">Películas</a></li>
+            <li><a href="series.html">Series</a></li>
+            <li><a href="login.html">Iniciar sesión / Registrarse</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Iniciar sesión / Registrarse</h1>
+        <div class="auth-container">
+            <div class="auth-form">
+                <h2>Iniciar sesión</h2>
+                <input type="text" id="loginUsername" placeholder="Nombre de usuario" required>
+                <input type="password" id="loginPassword" placeholder="Contraseña" required>
+                <button onclick="attemptLogin()">Iniciar sesión</button>
+            </div>
+            <div class="auth-form">
+                <h2>Registrarse</h2>
+                <input type="text" id="registerUsername" placeholder="Nombre de usuario" required>
+                <input type="email" id="registerEmail" placeholder="Correo electrónico" required>
+                <input type="password" id="registerPassword" placeholder="Contraseña" required>
+                <input type="password" id="registerConfirmPassword" placeholder="Confirmar contraseña" required>
+                <button onclick="attemptRegister()">Registrarse</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        function attemptLogin() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            if (login(username, password)) {
+                window.location.href = 'index.html';
+            } else {
+                alert('Usuario o contraseña incorrectos');
+            }
+        }
+
+        function attemptRegister() {
+            const username = document.getElementById('registerUsername').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('Las contraseñas no coinciden');
+                return;
+            }
+
+            if (register(username, email, password)) {
+                alert('Registro exitoso. Por favor, inicia sesión.');
+                document.getElementById('loginUsername').value = username;
+                document.getElementById('loginPassword').value = '';
+            } else {
+                alert('Error en el registro. Por favor, intenta con un nombre de usuario diferente.');
+            }
+        }
+    </script>
+</body>
+</html>
+

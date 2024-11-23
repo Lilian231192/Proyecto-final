@@ -1,0 +1,25 @@
+DROP DATABASE IF EXISTS pelis;
+CREATE DATABASE pelis;
+USE pelis;
+-- Crear la tabla user
+CREATE TABLE user (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    correo VARCHAR(100) NOT NULL UNIQUE,
+    contraseña VARCHAR(255) NOT NULL
+);
+
+-- Crear la tabla gusto
+CREATE TABLE gusto (
+    id_user INT NOT NULL,
+    terror INT,
+    comedia INT,
+    drama INT,
+    acción INT,
+    ciencia_ficción INT,
+    romance INT,
+    fantasía INT,
+    documental INT,
+    animación INT,
+    FOREIGN KEY (id_user) REFERENCES user(id)
+);

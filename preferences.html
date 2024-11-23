@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Preferencias</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .preferences-form {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .preferences-form h2 {
+            color: #00aaff;
+            margin-top: 0;
+        }
+        .preferences-form label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .preferences-form input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .preferences-form button {
+            background-color: #00aaff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .preferences-form button:hover {
+            background-color: #0088cc;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="movies.html">Películas</a></li>
+            <li><a href="series.html">Series</a></li>
+            <li><a id="loginLink" href="login.html">Iniciar sesión / Registrarse</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Mis Preferencias</h1>
+        <div class="preferences-form">
+            <h2>Géneros Favoritos</h2>
+            <form id="preferencesForm">
+                <label><input type="checkbox" name="genre" value="action"> Acción</label>
+                <label><input type="checkbox" name="genre" value="comedy"> Comedia</label>
+                <label><input type="checkbox" name="genre" value="drama"> Drama</label>
+                <label><input type="checkbox" name="genre" value="scifi"> Ciencia Ficción</label>
+                <label><input type="checkbox" name="genre" value="horror"> Terror</label>
+                <label><input type="checkbox" name="genre" value="romance"> Romance</label>
+                <label><input type="checkbox" name="genre" value="thriller"> Thriller</label>
+                <label><input type="checkbox" name="genre" value="animation"> Animación</label>
+                <button type="submit">Guardar Preferencias</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            if (!isLoggedIn) {
+                window.location.href = 'login.html';
+            } else {
+                updateNavigation();
+                loadPreferences();
+            }
+        });
+
+        function updateNavigation() {
+            const loginLink = document.getElementById('loginLink');
+            loginLink.textContent = 'Cerrar sesión';
+            loginLink.href = '#';
+            loginLink.onclick = function(e) {
+                e.preventDefault();
+                logout();
+                window.location.href = 'index.html';
+            };
+        }
+
+        function loadPreferences() {
+            // In a real application, this would be loaded from a server
+            const userPreferences = ['action', 'scifi', 'thriller'];
+            
+            userPreferences.forEach(genre => {
+                const checkbox = document.querySelector(`input[value="${genre}"]`);
+                if (checkbox) {
+                    checkbox.checked = true;
+                }
+            });
+        }
+
+        document.getElementById('preferencesForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const selectedGenres = Array.from(document.querySelectorAll('input[name="genre"]:checked'))
+                .map(checkbox => checkbox.value);
+            
+            // In a real application, this would be sent to a server
+            console.log('Saved preferences:', selectedGenres);
+            alert('Preferencias guardadas exitosamente!');
+        });
+    </script>
+</body>
+</html>
+

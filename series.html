@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Series</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .series-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+        .series-card {
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .series-card:hover {
+            transform: scale(1.05);
+        }
+        .series-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        .series-info {
+            padding: 10px;
+        }
+        .series-title {
+            font-size: 1.1em;
+            margin: 0;
+            color: #00aaff;
+        }
+        .series-year {
+            font-size: 0.9em;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="movies.html">Películas</a></li>
+            <li><a href="series.html">Series</a></li>
+            <li><a id="loginLink" href="login.html">Iniciar sesión / Registrarse</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Series</h1>
+        <div id="seriesGrid" class="series-grid">
+            <!-- Series cards will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            updateNavigation();
+            loadSeries();
+        });
+
+        function updateNavigation() {
+            const loginLink = document.getElementById('loginLink');
+            if (isLoggedIn) {
+                loginLink.textContent = 'Cerrar sesión';
+                loginLink.href = '#';
+                loginLink.onclick = function(e) {
+                    e.preventDefault();
+                    logout();
+                    window.location.reload();
+                };
+            } else {
+                loginLink.textContent = 'Iniciar sesión / Registrarse';
+                loginLink.href = 'login.html';
+                loginLink.onclick = null;
+            }
+        }
+
+        function loadSeries() {
+            // In a real application, this would be an API call
+            const series = [
+                { id: 1, title: "Breaking Bad", year: 2008, image: "https://image.tmdb.org/t/p/w500/ggFHVNu6YYI5L9pCfOacjizRGt.jpg" },
+                { id: 2, title: "Game of Thrones", year: 2011, image: "https://image.tmdb.org/t/p/w500/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg" },
+                { id: 3, title: "Stranger Things", year: 2016, image: "https://image.tmdb.org/t/p/w500/49WJfeN0moxb9IPfGn8AIqMGskD.jpg" },
+                { id: 4, title: "The Crown", year: 2016, image: "https://image.tmdb.org/t/p/w500/7IbBPGYTlDRJo7IcCNRzBRqwPQH.jpg" },
+                { id: 5, title: "The Mandalorian", year: 2019, image: "https://image.tmdb.org/t/p/w500/sWgBv7LV2PRoQgkxwlibdGXKz1S.jpg" },
+                { id: 6, title: "Chernobyl", year: 2019, image: "https://image.tmdb.org/t/p/w500/hlLXt2tOPT6RRnjiUmoxyG1LTFi.jpg" }
+            ];
+
+            const seriesGrid = document.getElementById('seriesGrid');
+            series.forEach(show => {
+                const seriesCard = document.createElement('div');
+                seriesCard.className = 'series-card';
+                seriesCard.innerHTML = `
+                    <img src="${show.image}" alt="${show.title}">
+                    <div class="series-info">
+                        <h3 class="series-title">${show.title}</h3>
+                        <p class="series-year">${show.year}</p>
+                    </div>
+                `;
+                seriesGrid.appendChild(seriesCard);
+            });
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Recomendación de Películas y Series</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="movies.html">Películas</a></li>
+            <li><a href="series.html">Series</a></li>
+            <li><a id="loginLink" href="login.html">Iniciar sesión / Registrarse</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Bienvenido al Sistema de Recomendación de Películas y Series</h1>
+        
+        <div id="welcomeMessage"></div>
+
+        <div class="options">
+            <div class="option-card">
+                <h2>Películas</h2>
+                <p>Explora nuestra colección de películas y obtén recomendaciones personalizadas.</p>
+                <a href="movies.html">Ver Películas</a>
+            </div>
+            <div class="option-card">
+                <h2>Series</h2>
+                <p>Descubre series emocionantes y nuevas temporadas de tus favoritas.</p>
+                <a href="series.html">Ver Series</a>
+            </div>
+            <div class="option-card" id="preferencesCard" style="display: none;">
+                <h2>Mis Preferencias</h2>
+                <p>Actualiza tus géneros y títulos favoritos para mejorar las recomendaciones.</p>
+                <a href="preferences.html">Editar Preferencias</a>
+            </div>
+            <div class="option-card" id="adminCard" style="display: none;">
+                <h2>Gestión de Usuarios</h2>
+                <p>Administra las cuentas de usuario del sistema.</p>
+                <a href="user-management.html">Gestionar Usuarios</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>
+

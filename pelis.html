@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Películas y Anime Recomendados</title>
+    <style>
+        /* ... (keep existing styles) ... */
+        .recommendations {
+            margin-top: 40px;
+        }
+        .recommendations h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ... (keep existing navbar) ... -->
+
+    <!-- Contenedor de películas -->
+    <div class="container" id="peliculasContainer">
+        <!-- Las películas se cargarán aquí dinámicamente con JavaScript -->
+    </div>
+
+    <!-- Recomendaciones -->
+    <div class="recommendations">
+        <h2>Recomendaciones para ti</h2>
+        <div id="movieRecommendations"></div>
+        <div id="animeRecommendations"></div>
+    </div>
+
+    <!-- ... (keep existing modal) ... -->
+
+    <script>
+        const API_KEY = 'TU_CLAVE_API_AQUI'; // Reemplaza con tu clave API de TMDb
+        const API_URL = 'https://api.themoviedb.org/3';
+        const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
+
+        // ... (keep existing functions) ...
+
+        // Función para cargar recomendaciones
+        function cargarRecomendaciones() {
+            const userId = 1; // Reemplaza esto con el ID del usuario actual
+            fetch(`api_handler.php?action=get_recommendations&user_id=${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const movieRecommendations = document.getElementById('movieRecommendations');
+                    const animeRecommendations = document.getElementById('animeRecommendations');
+
+                    // Mostrar recomendaciones de películas
+                    movieRecommendations.innerHTML = '<h3>Películas recomendadas</h3>';
+                    data.movies.forEach(movie => {
+                        const movieDiv = document.createElement('div');
+                        movieDiv.classList.add('pelicula');
+                        movieDiv.innerHTML = `
+                            <img src="${movie.Poster}" alt="${movie.Title}">
+                            <h3>${movie.Title}</h3>
+                        `;
+                        movieRecommendations.appendChild(movieDiv);
+                    });
+
+                    // Mostrar recomendaciones de anime
+                    animeRecommendations.innerHTML = '<h3>Anime recomendado</h3>';
+                    data.anime.forEach(anime => {
+                        const animeDiv = document.createElement('div');
+                        animeDiv.classList.add('pelicula');
+                        animeDiv.innerHTML = `
+                            <img src="${anime.images.jpg.image_url}" alt="${anime.title}">
+                            <h3>${anime.title}</h3>
+                        `;
+                        animeRecommendations.appendChild(animeDiv);
+                    });
+                })
+                .catch(error => console.log('Error al cargar las recomendaciones:', error));
+        }
+
+        // Cargar las películas y recomendaciones al cargar la página
+        window.onload = function() {
+            cargarPeliculas();
+            cargarRecomendaciones();
+        };
+    </script>
+
+</body>
+</html>
+

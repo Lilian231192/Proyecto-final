@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Películas</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+        .movie-card {
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .movie-card:hover {
+            transform: scale(1.05);
+        }
+        .movie-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        .movie-info {
+            padding: 10px;
+        }
+        .movie-title {
+            font-size: 1.1em;
+            margin: 0;
+            color: #00aaff;
+        }
+        .movie-year {
+            font-size: 0.9em;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="movies.html">Películas</a></li>
+            <li><a href="series.html">Series</a></li>
+            <li><a id="loginLink" href="login.html">Iniciar sesión / Registrarse</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Películas</h1>
+        <div id="movieGrid" class="movie-grid">
+            <!-- Movie cards will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            updateNavigation();
+            loadMovies();
+        });
+
+        function updateNavigation() {
+            const loginLink = document.getElementById('loginLink');
+            if (isLoggedIn) {
+                loginLink.textContent = 'Cerrar sesión';
+                loginLink.href = '#';
+                loginLink.onclick = function(e) {
+                    e.preventDefault();
+                    logout();
+                    window.location.reload();
+                };
+            } else {
+                loginLink.textContent = 'Iniciar sesión / Registrarse';
+                loginLink.href = 'login.html';
+                loginLink.onclick = null;
+            }
+        }
+
+        function loadMovies() {
+            // In a real application, this would be an API call
+            const movies = [
+                { id: 1, title: "Inception", year: 2010, image: "https://image.tmdb.org/t/p/w500/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg" },
+                { id: 2, title: "The Shawshank Redemption", year: 1994, image: "https://image.tmdb.org/t/p/w500/q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg" },
+                { id: 3, title: "The Godfather", year: 1972, image: "https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg" },
+                { id: 4, title: "The Dark Knight", year: 2008, image: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg" },
+                { id: 5, title: "Pulp Fiction", year: 1994, image: "https://image.tmdb.org/t/p/w500/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg" },
+                { id: 6, title: "Forrest Gump", year: 1994, image: "https://image.tmdb.org/t/p/w500/saHP97rTPS5eLmrLQEcANmKrsFl.jpg" }
+            ];
+
+            const movieGrid = document.getElementById('movieGrid');
+            movies.forEach(movie => {
+                const movieCard = document.createElement('div');
+                movieCard.className = 'movie-card';
+                movieCard.innerHTML = `
+                    <img src="${movie.image}" alt="${movie.title}">
+                    <div class="movie-info">
+                        <h3 class="movie-title">${movie.title}</h3>
+                        <p class="movie-year">${movie.year}</p>
+                    </div>
+                `;
+                movieGrid.appendChild(movieCard);
+            });
+        }
+    </script>
+</body>
+</html>
+
